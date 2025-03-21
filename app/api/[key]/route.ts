@@ -4,12 +4,12 @@ import redisClient from "../../_lib/redis";
 export async function POST(req: NextRequest, {
   params
 } : {
-  params: {
+  params: Promise<{
     key: string;
-  }
+  }>
 }) {
   try {
-    const { key } = params;
+    const { key } = await params;
     const value = await req.text();
     await redisClient.set(key, value);
     return new NextResponse("");
